@@ -1,0 +1,24 @@
+{
+  "name": "cuh4w19",
+  "version": "description here",
+  "keywords": [
+    "keywords here"
+  ],
+  "repository": "https://github.com/tramyardg/cuh4w19.git",
+  "private": false,
+  "scripts": {
+    "eslint": "eslint js/internal/*.js"
+  },
+  "dependencies": {
+    "bootstrap": "^4.2.1",
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
