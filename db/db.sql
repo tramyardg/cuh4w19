@@ -31,3 +31,19 @@ CREATE TABLE `foodbank` (
   `fbname` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`fbid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `foodrequest` (
+  `userid` varchar(5) NOT NULL,
+  `requestdate` varchar(10) NOT NULL,  -- YYYY-MM-DD
+  `food1` varchar(5) DEFAULT NULL,
+  `food2` varchar(5) DEFAULT NULL,
+  `food3` varchar(5) DEFAULT NULL,
+  `food4` varchar(5) NOT NULL,
+  `food5` varchar(5) DEFAULT NULL,
+  `food6` varchar(5) DEFAULT NULL,
+  `food7` varchar(5) DEFAULT NULL,
+  `food8` varchar(5) DEFAULT NULL,
+  `pickupdate` varchar(10) DEFAULT NULL,  -- YYYY-MM-DD
+  `delivered` int(1) DEFAULT 0,  
+   PRIMARY KEY (`userid`,`requestdate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
