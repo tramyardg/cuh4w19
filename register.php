@@ -18,7 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
-    <title>Register</title>
+    <title>Register for free food</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -48,8 +48,6 @@
         <div id="demodiv"></div>
         <input type="submit" class="btn btn-primary btn-sm" value="Register" name="submit_register_form"/>
     </form>
-
-
 </div>
 
 <!-- Load jQuery from a CDN or your server -->
@@ -79,7 +77,7 @@
   function accountInfo(fullName, accountID, fbAddress) {
     var h = '   <div class="card  jumbotron">  ' +
         '           <div class="card-body">  ' +
-        '               <h5 class="card-title">Your account info</h5>  ' +
+        '               <h5 class="card-title">For your visit to your chosen food bank, please take note of these information.</h5>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Full name: ' + fullName + '</h6>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Account ID: ' + accountID + '</h6>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Nearest food bank:</h6>  ' +

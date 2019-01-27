@@ -25,7 +25,6 @@
         $request_id = $_GET['rid'];
     }
     ?>
-
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -136,7 +135,6 @@
       }
       e.preventDefault(); // avoid to execute the actual submit of the form.
       return false;
-
     });
   });
 </script>
