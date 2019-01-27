@@ -12,11 +12,11 @@ class DB
     {
         if (empty(self::$instance)) {
             $db_info = array(
-                "host" => "35.203.19.215",
+                "host" => "localhost",
                 "port" => "3306",
                 "user" => "root",
-                "pass" => "admin",
-                "name" => "foodbank",
+                "pass" => "",
+                "name" => "fbdb",
                 "charset" => "UTF-8"
             );
 

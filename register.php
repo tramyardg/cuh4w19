@@ -18,18 +18,16 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
-    <title>Hello, world!</title>
+    <title>Register</title>
 </head>
 <body>
 <div class="container mt-3">
-    <form>
+    <form id="register-form">
         <div class="form-group">
-            <label for="full_name">Full name</label>
-            <input type="text" class="form-control" id="full_name" aria-describedby="fullNameHelp"
-                   placeholder="Enter full name">
-            <label for="full_name">Household size</label>
-            <input type="text" class="form-control" id="household_size" aria-describedby="fullNameHelp"
-                   placeholder="Enter number of adults and children">
+            <label>Full name</label>
+            <input type="text" required class="form-control" name="full_name" id="full_name" placeholder="Enter full name">
+            <label>Household size</label>
+            <input type="number" required class="form-control" name="household_size" id="household_size" placeholder="Enter number of adults and children">
         </div>
         <div class="form-group">
             <label>Select the food centre</label>
@@ -38,11 +36,8 @@
             </button>
             <p id="geo_location_not_supported"></p>
         </div>
-
         <div id="demodiv"></div>
-
-
-        <button type="submit" class="btn btn-primary">Register</button>
+        <input type="submit" class="btn btn-primary" value="Register" name="submit_register_form" />
     </form>
 </div>
 
@@ -57,7 +52,7 @@
     '                   <div class="input-group">  '  +
     '                       <div class="input-group-prepend">  '  +
     '                           <div class="input-group-text">  '  +
-    '                               <input type="radio" value="' + id + '" name="radio1" aria-label="Radio button for following text input">  '  +
+    '                               <input required type="radio" value="' + id + '" name="fb_selected" aria-label="Radio button for following text input">  '  +
     '                           </div>  '  +
     '                       </div>  '  +
     '                       <input type="text" class="form-control" value="'+name+'" aria-label="Text input with radio button">  '  +
@@ -70,41 +65,41 @@
     return h;
 
   }
-
   var data_food_bank = {
     "food_banks": [
       {
         "name": "The McConnell Foundation",
         "address": "1002 Sherbrooke St W, Montreal, QC H3A 3L6",
         "lat": "45.5022794",
-        "long": "-73.5748901"
+        "long": "-73.5748901",
+        "id": "2222"
       },
       {
         "name": "Welcome Hall Mission",
         "address": "1490 Saint-Antoine St W, Montreal, QC H3C 1C3",
         "lat": "45.493450",
-        "long": "-73.571430"
+        "long": "-73.571430",
+        "id": "8888"
       },
       {
         "name": "The People's Potato",
         "address": "1455 Boulevard de Maisonneuve O, Montréal, QC H3G 1M8",
         "lat": "45.4970605",
-        "long": "-73.5788021"
+        "long": "-73.5788021",
+        "id": "7777"
       },
       {
         "name": "Food Secure",
         "address": "3875 St Urbain St, Montreal, QC H2W 1V1",
         "lat": "45.5150636",
-        "long": "-73.5784565"
+        "long": "-73.5784565",
+        "id": "3333"
       }
     ]
   };
-
-
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
-
     } else {
       x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -119,13 +114,8 @@
         "<br>Longitude: " + position.coords.longitude);
     for (var i = 0; i < data_food_bank.food_banks.length; i++) {
       var food_bank = data_food_bank.food_banks;
-
-      var d = calculateDistance(current_lat, current_lng, food_bank[i].lat, food_bank[i].long);
-      console.log(templateAddressDiv(i, food_bank[i].name, food_bank[i].address, d));
-
-
-
-      h += templateAddressDiv(i, food_bank[i].name, food_bank[i].address, d);
+      var d = Math.round(calculateDistance(current_lat, current_lng, food_bank[i].lat, food_bank[i].long) * 100) / 100;
+      h += templateAddressDiv(food_bank[i].id, food_bank[i].name, food_bank[i].address, d);
     }
     x2.innerHTML = h;
 
@@ -150,7 +140,19 @@
   }
 
   $(document).ready(function () {
-
+    $("#register-form").submit(function(e) {
+      var form = $(this);
+      console.log(form.serialize());
+      $.ajax({
+        type: "POST",
+        url: 'app/process_registration.php',
+        data: form.serialize(), // serializes the form's elements.
+        success: function(data) {
+          console.log(data);
+        }
+      });
+      e.preventDefault(); // avoid to execute the actual submit of the form.
+    });
   });
 </script>
 
