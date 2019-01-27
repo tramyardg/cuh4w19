@@ -55,7 +55,7 @@
 <script>
   var x = document.getElementById("demo");
   var x2 = document.getElementById("demodiv");
-  function templateAddressDiv(name, address, distance) {
+  function templateAddressDiv(fbname, address, distance) {
     var h = '   <div class="card mb-sm-2">  ' +
         '               <div class="card-body">  ' +
         '                   <div class="input-group mb-1">  ' +
@@ -64,20 +64,21 @@
         '                               <input required type="radio" value="' + address + '" name="fb_selected" aria-label="Radio button for following text input">  ' +
         '                           </div>  ' +
         '                       </div>  ' +
-        '                       <input type="text" class="form-control" value="' + name + '" aria-label="Text input with radio button">  ' +
+        '                       <input type="text" class="form-control" value="' + fbname + '" aria-label="Text input with radio button">  ' +
         '                   </div>  ' +
         '                   <span>Address:</span>  ' +
         '                   <span> ' + address + ' </span>  ' +
         '                   <p>Distance: ' + distance + ' km(s)</p>  ' +
         '               </div>  ' +
         '          </div>  ';
+		console.log(h);
     return h;
   }
 
   function accountInfo(fullName, accountID, fbAddress) {
     var h = '   <div class="card  jumbotron">  ' +
         '           <div class="card-body">  ' +
-        '               <h5 class="card-title">For your visit to your chosen food bank, please take note of these information.</h5>  ' +
+        '               <h5 class="card-title">For your visit to your chosen food bank, please take a note of this information.</h5>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Full name: ' + fullName + '</h6>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Account ID: ' + accountID + '</h6>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Nearest food bank:</h6>  ' +
@@ -161,9 +162,11 @@
 
   $(document).ready(function () {
     var register_main_div = $('.register-main-div');
+	//$('input[type=submit]').attr('disabled', true);
+	
     $("#register-form").submit(function (e) {
-      var form = $(this);
-      console.log(form.serialize());
+		if($('input[name=fb_selected]').val() != "") {
+			var form = $(this);
       $.ajax({
         type: "POST",
         url: 'app/process_registration.php',
@@ -176,6 +179,8 @@
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.
+		}
+      
     });
   });
 </script>
