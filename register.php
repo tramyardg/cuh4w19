@@ -21,25 +21,33 @@
     <title>Register</title>
 </head>
 <body>
-<div class="container mt-3 register-main-div">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="#">FoodDrive</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+<div role="main" class="container mt-3 register-main-div">
     <form id="register-form">
         <div class="form-group">
-            <label>Full name</label>
-            <input type="text" required class="form-control" name="full_name" id="full_name" placeholder="Enter full name">
-            <label>Household size</label>
-            <input type="number" required class="form-control" name="household_size" id="household_size" placeholder="Enter number of adults and children">
+            <span class="text-danger font-weight-bold">* </span><label>Full name</label>
+            <input type="text" required class="form-control" name="full_name" id="full_name"
+                   placeholder="Enter full name">
+            <span class="text-danger font-weight-bold">* </span><label>Household size</label>
+            <input type="number" required class="form-control" name="household_size" id="household_size"
+                   placeholder="Enter number of adults and children">
         </div>
         <div class="form-group">
-            <label>Select the food centre</label>
+            <span class="text-danger font-weight-bold">* </span><label>Select the food centre</label>
             <button type="button" onclick="getLocation()" class="find-me btn btn-info btn-block">Find the nearest food
                 bank
             </button>
             <p id="geo_location_not_supported"></p>
         </div>
         <div id="demodiv"></div>
-        <input type="submit" class="btn btn-primary" value="Register" name="submit_register_form" />
+        <input type="submit" class="btn btn-primary btn-sm" value="Register" name="submit_register_form"/>
     </form>
-
 
 
 </div>
@@ -50,33 +58,33 @@
   var x = document.getElementById("demo");
   var x2 = document.getElementById("demodiv");
   function templateAddressDiv(name, address, distance) {
-    var h = '   <div class="card mb-sm-2">  '  +
-    '               <div class="card-body">  '  +
-    '                   <div class="input-group">  '  +
-    '                       <div class="input-group-prepend">  '  +
-    '                           <div class="input-group-text">  '  +
-    '                               <input required type="radio" value="' + address + '" name="fb_selected" aria-label="Radio button for following text input">  '  +
-    '                           </div>  '  +
-    '                       </div>  '  +
-    '                       <input type="text" class="form-control" value="'+name+'" aria-label="Text input with radio button">  '  +
-    '                   </div>  '  +
-    '                   <span>Address:</span>  '  +
-    '                   <span> ' + address + ' </span>  '  +
-    '                   <p>Distance (km): ' + distance + '</p>  ' +
-    '               </div>  '  +
-    '          </div>  ';
+    var h = '   <div class="card mb-sm-2">  ' +
+        '               <div class="card-body">  ' +
+        '                   <div class="input-group mb-1">  ' +
+        '                       <div class="input-group-prepend">  ' +
+        '                           <div class="input-group-text">  ' +
+        '                               <input required type="radio" value="' + address + '" name="fb_selected" aria-label="Radio button for following text input">  ' +
+        '                           </div>  ' +
+        '                       </div>  ' +
+        '                       <input type="text" class="form-control" value="' + name + '" aria-label="Text input with radio button">  ' +
+        '                   </div>  ' +
+        '                   <span>Address:</span>  ' +
+        '                   <span> ' + address + ' </span>  ' +
+        '                   <p>Distance: ' + distance + ' km(s)</p>  ' +
+        '               </div>  ' +
+        '          </div>  ';
     return h;
   }
 
   function accountInfo(fullName, accountID, fbAddress) {
-    var h = '   <div class="card" style="width: 18rem;">  ' +
+    var h = '   <div class="card  jumbotron">  ' +
         '           <div class="card-body">  ' +
         '               <h5 class="card-title">Your account info</h5>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Full name: ' + fullName + '</h6>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Account ID: ' + accountID + '</h6>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Nearest food bank:</h6>  ' +
-        '               <p class="card-text">' + fbAddress + '</p>  ' +
-        '               <a href="request.php">Order your food here.</a>  ' +
+        '               <span class="card-text">' + fbAddress + '</span>  ' +
+        '               <p><a href="request.php?rid='+accountID+'">Select your food here.</a></p>  ' +
         '           </div>  ' +
         '      </div>  ';
     return h;
@@ -127,15 +135,12 @@
     var current_lng = position.coords.longitude;
     var h = "";
 
-    console.log("Latitude: " + position.coords.latitude +
-        "<br>Longitude: " + position.coords.longitude);
     for (var i = 0; i < data_food_bank.food_banks.length; i++) {
       var food_bank = data_food_bank.food_banks;
       var d = Math.round(calculateDistance(current_lat, current_lng, food_bank[i].lat, food_bank[i].long) * 100) / 100;
       h += templateAddressDiv(food_bank[i].name, food_bank[i].address, d);
     }
     x2.innerHTML = h;
-
   }
 
   // lat 1: current lat
@@ -158,14 +163,14 @@
 
   $(document).ready(function () {
     var register_main_div = $('.register-main-div');
-    $("#register-form").submit(function(e) {
+    $("#register-form").submit(function (e) {
       var form = $(this);
       console.log(form.serialize());
       $.ajax({
         type: "POST",
         url: 'app/process_registration.php',
         data: form.serialize(), // serializes the form's elements.
-        success: function(data) {
+        success: function (data) {
           var d = JSON.parse(data);
           console.log(d);
           form.hide();
