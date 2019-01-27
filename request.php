@@ -94,13 +94,14 @@
       var form = $(this);
       console.log(form.serialize());
       $("input.single-checkbox").removeAttr("disabled");
-
+      var submit = $('input[name=request_submit]');
       $.ajax({
         type: "POST",
         url: 'app/process_request.php',
         data: form.serialize(), // serializes the form's elements.
         success: function (data) {
-          console.log(data);
+          submit.attr('disabled', true);
+          alert('You can pick up your order on this day: ' + data);
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.

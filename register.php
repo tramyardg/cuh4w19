@@ -21,7 +21,7 @@
     <title>Register</title>
 </head>
 <body>
-<div class="container mt-3">
+<div class="container mt-3 register-main-div">
     <form id="register-form">
         <div class="form-group">
             <label>Full name</label>
@@ -39,6 +39,9 @@
         <div id="demodiv"></div>
         <input type="submit" class="btn btn-primary" value="Register" name="submit_register_form" />
     </form>
+
+
+
 </div>
 
 <!-- Load jQuery from a CDN or your server -->
@@ -46,13 +49,13 @@
 <script>
   var x = document.getElementById("demo");
   var x2 = document.getElementById("demodiv");
-  function templateAddressDiv(id, name, address, distance) {
+  function templateAddressDiv(name, address, distance) {
     var h = '   <div class="card mb-sm-2">  '  +
     '               <div class="card-body">  '  +
     '                   <div class="input-group">  '  +
     '                       <div class="input-group-prepend">  '  +
     '                           <div class="input-group-text">  '  +
-    '                               <input required type="radio" value="' + id + '" name="fb_selected" aria-label="Radio button for following text input">  '  +
+    '                               <input required type="radio" value="' + address + '" name="fb_selected" aria-label="Radio button for following text input">  '  +
     '                           </div>  '  +
     '                       </div>  '  +
     '                       <input type="text" class="form-control" value="'+name+'" aria-label="Text input with radio button">  '  +
@@ -63,8 +66,22 @@
     '               </div>  '  +
     '          </div>  ';
     return h;
-
   }
+
+  function accountInfo(fullName, accountID, fbAddress) {
+    var h = '   <div class="card" style="width: 18rem;">  ' +
+        '           <div class="card-body">  ' +
+        '               <h5 class="card-title">Your account info</h5>  ' +
+        '               <h6 class="card-subtitle mb-2 text-muted">Full name: ' + fullName + '</h6>  ' +
+        '               <h6 class="card-subtitle mb-2 text-muted">Account ID: ' + accountID + '</h6>  ' +
+        '               <h6 class="card-subtitle mb-2 text-muted">Nearest food bank:</h6>  ' +
+        '               <p class="card-text">' + fbAddress + '</p>  ' +
+        '               <a href="request.php">Order your food here.</a>  ' +
+        '           </div>  ' +
+        '      </div>  ';
+    return h;
+  }
+
   var data_food_bank = {
     "food_banks": [
       {
@@ -115,7 +132,7 @@
     for (var i = 0; i < data_food_bank.food_banks.length; i++) {
       var food_bank = data_food_bank.food_banks;
       var d = Math.round(calculateDistance(current_lat, current_lng, food_bank[i].lat, food_bank[i].long) * 100) / 100;
-      h += templateAddressDiv(food_bank[i].id, food_bank[i].name, food_bank[i].address, d);
+      h += templateAddressDiv(food_bank[i].name, food_bank[i].address, d);
     }
     x2.innerHTML = h;
 
@@ -140,6 +157,7 @@
   }
 
   $(document).ready(function () {
+    var register_main_div = $('.register-main-div');
     $("#register-form").submit(function(e) {
       var form = $(this);
       console.log(form.serialize());
@@ -148,7 +166,10 @@
         url: 'app/process_registration.php',
         data: form.serialize(), // serializes the form's elements.
         success: function(data) {
-          console.log(data);
+          var d = JSON.parse(data);
+          console.log(d);
+          form.hide();
+          register_main_div.append(accountInfo(d.data[1], d.data[0], d.data[3]));
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -156,7 +177,6 @@
   });
 </script>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
 </body>
 </html>

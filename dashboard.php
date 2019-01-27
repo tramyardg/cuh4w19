@@ -9,18 +9,32 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
+
     <link rel="stylesheet" href="css/dashboard.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
     <title>Dashboard</title>
+    <?php
+    require 'DB.php';
+
+    $select_inv = 'SELECT * FROM `foodinventory`';
+    $inv = DB::getInstance()->prepare($select_inv);
+    $inv->execute();
+
+    $select_visitor = 'SELECT * FROM `visitor`';
+    $visitor = DB::getInstance()->prepare($select_visitor);
+    $visitor->execute();
+
+    $select_request = 'SELECT * FROM `foodrequest`';
+    $request = DB::getInstance()->prepare($select_request);
+    $request->execute();
+
+
+    ?>
 </head>
 <body>
 <body data-gr-c-s-loaded="true">
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Sign out</a>
-        </li>
-    </ul>
 </nav>
 
 <div class="container-fluid">
@@ -83,7 +97,7 @@
             <div class="inventory-div  fb_table">
                 <h2>Inventory</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="inventory-table">
                         <thead>
                         <tr>
                             <th>Item ID</th>
@@ -93,64 +107,70 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <?php  while($row = $inv->fetch())  { ?>
                         <tr>
-                            <td>1,013</td>
-                            <td>per</td>
-                            <td>conubia</td>
-                            <td>nostra</td>
+                            <td><?php echo $row['foodid'];?></td>
+                            <td><?php echo $row['foodname']; ?></td>
+                            <td><?php echo $row['categoryid']; ?></td>
+                            <td><?php echo $row['actualQty']; ?></td>
                         </tr>
+                        <?php } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
 
             <div class="request-div d-none fb_table">
                 <h2>Order Requests</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="request-table">
                         <thead>
                         <tr>
                             <th>Order ID</th>
                             <th>Visitor ID</th>
-                            <th>Date Received</th>
-                            <th>Date Picked Up</th>
+                            <th>Request Date</th>
+                            <th>Pick Up Date</th>
+                            <th>Status</th>
                         </tr>
                         </thead>
                         <tbody>
+                        <?php  while($row = $request->fetch())  { ?>
                         <tr>
-                            <td>1,001</td>
-                            <td>Lorem</td>
-                            <td>ipsum</td>
-                            <td>dolor</td>
+                            <td><?php echo $row['requestid'];?></td>
+                            <td><?php echo $row['userid'];?></td>
+                            <td><?php echo $row['requestdate'];?></td>
+                            <td><?php echo $row['pickupdate'];?></td>
+                            <td><?php echo $row['delivered'];?></td>
                         </tr>
+                        <?php } ?>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-
             <div class="visitor-div d-none  fb_table">
                 <h2>Customer</h2>
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="visitor-table">
                         <thead>
                         <tr>
                             <th>Visitor ID</th>
                             <th>Full name</th>
                             <th>Household Size</th>
-                            <th>Last Request</th>
+                            <th>Visitor's Food bank</th>
                         </tr>
                         </thead>
                         <tbody>
+                        <?php  while($row = $visitor->fetch())  { ?>
                         <tr>
-                            <td>1,015</td>
-                            <td>sodales</td>
-                            <td>ligula</td>
-                            <td>libero</td>
+                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo $row['full_name']; ?></td>
+                            <td><?php echo $row['household_size']; ?></td>
+                            <td><?php echo $row['fb_selected']; ?></td>
                         </tr>
+                        <?php } ?>
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -170,8 +190,11 @@
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
 
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
 <script>
-    
+
     function showHide(ele) {
       $('main').find('fb_table').addClass('d-none');
       console.log($($(ele)[0]).attr('href'));
@@ -202,6 +225,9 @@
       console.log('adas');
       $(".order-request-div").show();
     });
+    $('#inventory-table').DataTable();
+    $('#request-table').DataTable();
+    $('#visitor-table').DataTable();
   });
 </script>
 </body>
