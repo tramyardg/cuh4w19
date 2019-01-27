@@ -87,7 +87,7 @@
                                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
-                            Customers
+                            Visitors
                         </a>
                     </li>
                 </ul>
@@ -161,7 +161,7 @@
             </div>
 
             <div class="visitor-div d-none  fb_table">
-                <h2>Customer</h2>
+                <h2>Visitors</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm" id="visitor-table">
                         <thead>
