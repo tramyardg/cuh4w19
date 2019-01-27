@@ -71,7 +71,7 @@
         '                   <p>Distance: ' + distance + ' km(s)</p>  ' +
         '               </div>  ' +
         '          </div>  ';
-		console.log(h);
+    console.log(h);
     return h;
   }
 
@@ -83,7 +83,7 @@
         '               <h6 class="card-subtitle mb-2 text-muted">Account ID: ' + accountID + '</h6>  ' +
         '               <h6 class="card-subtitle mb-2 text-muted">Nearest food bank:</h6>  ' +
         '               <span class="card-text">' + fbAddress + '</span>  ' +
-        '               <p><a href="request.php?rid='+accountID+'">Select your food here.</a></p>  ' +
+        '               <p><a href="request.php?rid=' + accountID + '">Select your food here.</a></p>  ' +
         '           </div>  ' +
         '      </div>  ';
     return h;
@@ -162,25 +162,26 @@
 
   $(document).ready(function () {
     var register_main_div = $('.register-main-div');
-	//$('input[type=submit]').attr('disabled', true);
-	
     $("#register-form").submit(function (e) {
-		if($('input[name=fb_selected]').val() != "") {
-			var form = $(this);
-      $.ajax({
-        type: "POST",
-        url: 'app/process_registration.php',
-        data: form.serialize(), // serializes the form's elements.
-        success: function (data) {
-          var d = JSON.parse(data);
-          console.log(d);
-          form.hide();
-          register_main_div.append(accountInfo(d.data[1], d.data[0], d.data[3]));
-        }
-      });
-      e.preventDefault(); // avoid to execute the actual submit of the form.
-		}
-      
+      if ($('input[name=fb_selected]').val() !== "") {
+        var form = $(this);
+        $.ajax({
+          type: "POST",
+          url: 'app/process_registration.php',
+          data: form.serialize(), // serializes the form's elements.
+          success: function (data) {
+            if (data !== 'null') {
+              var d = JSON.parse(data);
+              form.hide();
+              register_main_div.append(accountInfo(d.data[1], d.data[0], d.data[3]));
+            } else {
+              alert('Select the food centre and click submit.');
+            }
+          }
+        });
+        e.preventDefault(); // avoid to execute the actual submit of the form.
+      }
+
     });
   });
 </script>
