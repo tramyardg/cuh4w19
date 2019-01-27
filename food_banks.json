@@ -1,0 +1,29 @@
+{
+  "food_banks": [
+    {
+      "name": "The McConnell Foundation",
+      "address": "1002 Sherbrooke St W, Montreal, QC H3A 3L6",
+      "lat": "45.5022794",
+      "long": "-73.5748901"
+    },
+    {
+      "name": "Welcome Hall Mission",
+      "address": "1490 Saint-Antoine St W, Montreal, QC H3C 1C3",
+      "lat": "40.7127753",
+      "long": "-74.0059728"
+    },
+    {
+      "name": "The People's Potato",
+      "address": "1455 Boulevard de Maisonneuve O, Montréal, QC H3G 1M8",
+      "lat": "45.4970605",
+      "long": "-73.57880219999998"
+    },
+    {
+      "name": "Food Secure",
+      "address": "3875 St Urbain St, Montreal, QC H2W 1V1",
+      "lat": "45.5150636",
+      "long": "-73.57845650000002"
+    }
+  ]
+}
+
